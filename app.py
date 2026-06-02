@@ -6,13 +6,19 @@ from zhipuai import ZhipuAI  # 接入智谱AI
 from dotenv import load_dotenv  # 加载API密钥
 
 # ===================== 1. 初始化智谱AI客户端（核心：接入API）=====================
-load_dotenv()  # 从.env文件加载你的ZHIPU_API_KEY
-api_key = os.getenv("ZHIPU_API_KEY")
+try:
+    # 云端部署：从Secrets拿密钥
+    API_KEY = st.secrets["secrets"]["ZHIPU_API_KEY"]
+    BASE_URL = st.secrets["secrets"]["ZHIPU_BASE_URL"]
+except:
+    # 本地电脑运行：读取.env文件
+    from dotenv import load_dotenv
+    load_dotenv()
+    API_KEY = os.getenv("ZHIPU_API_KEY")
+    BASE_URL = os.getenv("ZHIPU_BASE_URL")
 
-if not api_key:
-    st.error("❌ 未找到ZHIPU_API_KEY，请检查项目根目录的.env文件！")
-else:
-    client = ZhipuAI(api_key=api_key)  # 初始化智谱AI客户端
+# 实例化客户端
+client = ZhipuAI(api_key=API_KEY, base_url=BASE_URL)
 
 # ===================== Web应用配置 =====================
 st.set_page_config(
