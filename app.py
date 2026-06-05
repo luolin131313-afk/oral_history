@@ -3,7 +3,7 @@ import json
 import os
 import re
 from zhipuai import ZhipuAI  # 接入智谱AI
-from dotenv import load_dotenv  # 加载API密钥
+
 
 # ===================== 新增：导入 Neo4j 和图谱可视化库 =====================
 # ===================== 新增：导入 Neo4j 和图谱可视化库 =====================
