@@ -96,7 +96,7 @@ def load_graph_from_neo4j():
                     label=m_node["name"], 
                     size=22, 
                     color=node_color, 
-                    font={'color': '#ffc0cb'}  # ✨ 正确闭合的花括号和右括号
+                    font={'color': "#06b6d4"}  # ✨ 正确闭合的花括号和右括号
                 ))
                 seen_nodes.add(m_node["name"])
 
