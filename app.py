@@ -79,13 +79,15 @@ def load_graph_from_neo4j():
             node_color = "#8b5cf6"
 
             # 建立源节点
+            # 建立源节点
             if n_node["name"] not in seen_nodes:
                 nodes.append(Node(
                     id=n_node["name"], 
                     label=n_node["name"], 
-                    size=22,              # 稍微调大了一点节点，更好看
+                    size=22,              
                     color=node_color, 
-                    font_color="#ff69b4"   # ✨ 核心修改：节点名字改为白色
+                    # ✨ 终极修正：必须使用符合 vis-network 规范的 font 字典参数！
+                    font={'color': '#ffffff'}  # 强制让文字变成纯白色
                 ))
                 seen_nodes.add(n_node["name"])
 
@@ -96,7 +98,10 @@ def load_graph_from_neo4j():
                     label=m_node["name"], 
                     size=22, 
                     color=node_color, 
-                    font_color="#ff69b4"  # ✨ 核心修改：节点名字改为白色
+                    # ✨ 终极修正：必须使用符合 vis-network 规范的 font 字典参数！
+                    font={'color': '#ffffff'}  # 强制让文字变成纯白色
+                ))
+                seen_nodes.add(m_node["name"]) # ✨ 核心修改：节点名字改为白色
                 ))
                 seen_nodes.add(m_node["name"])
 
