@@ -60,6 +60,7 @@ def load_data():
 data = load_data()
 
 # ===================== 优化版：从 Neo4j 查询图数据并美化视觉样式 =====================
+# ===================== 终极修正版：从 Neo4j 查询图数据并转换为前端格式 =====================
 @st.cache_data
 def load_graph_from_neo4j():
     driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
@@ -74,11 +75,9 @@ def load_graph_from_neo4j():
             n_node = record["n"]
             m_node = record["m"]
 
-            # 🎨 自定义你的节点外观颜色（这里换成了非常有科技感的“珊瑚橙/琥珀金”，你可以换成任何你喜欢的颜色代码）
-            # fontColor="#ffffff" 强制让节点下方的文字显示为纯白色
+            # 🎨 节点颜色换成了你喜欢的紫色
             node_color = "#8b5cf6"
 
-            # 建立源节点
             # 建立源节点
             if n_node["name"] not in seen_nodes:
                 nodes.append(Node(
@@ -86,8 +85,7 @@ def load_graph_from_neo4j():
                     label=n_node["name"], 
                     size=22,              
                     color=node_color, 
-                    # ✨ 终极修正：必须使用符合 vis-network 规范的 font 字典参数！
-                    font={'color': '#ffffff'}  # 强制让文字变成纯白色
+                    font={'color': '#ffffff'}  # ✨ 正确闭合的花括号和右括号
                 ))
                 seen_nodes.add(n_node["name"])
 
@@ -98,19 +96,15 @@ def load_graph_from_neo4j():
                     label=m_node["name"], 
                     size=22, 
                     color=node_color, 
-                    # ✨ 终极修正：必须使用符合 vis-network 规范的 font 字典参数！
-                    font={'color': '#ffffff'}  # 强制让文字变成纯白色
-                ))
-                seen_nodes.add(m_node["name"]) # ✨ 核心修改：节点名字改为白色
+                    font={'color': '#ffffff'}  # ✨ 正确闭合的花括号和右括号
                 ))
                 seen_nodes.add(m_node["name"])
 
             # 建立边（连线）
-            # ✨ 核心修改：把 label=f"共现..." 彻底删掉，改为空字符串 ""。这样连线上就不会堆积任何密密麻麻的文字了！
             edges.append(Edge(
                 source=n_node["name"], 
                 target=m_node["name"], 
-                label=""                  # 🧹 彻底清空权重文字，保持界面干净
+                label=""
             ))
 
     driver.close()
