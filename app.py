@@ -85,7 +85,7 @@ def load_graph_from_neo4j():
                     label=n_node["name"], 
                     size=22,              # 稍微调大了一点节点，更好看
                     color=node_color, 
-                    font_Color="#ff69b4"   # ✨ 核心修改：节点名字改为白色
+                    font_color="#ff69b4"   # ✨ 核心修改：节点名字改为白色
                 ))
                 seen_nodes.add(n_node["name"])
 
@@ -96,7 +96,7 @@ def load_graph_from_neo4j():
                     label=m_node["name"], 
                     size=22, 
                     color=node_color, 
-                    font_Color="#ff69b4"  # ✨ 核心修改：节点名字改为白色
+                    font_color="#ff69b4"  # ✨ 核心修改：节点名字改为白色
                 ))
                 seen_nodes.add(m_node["name"])
 
