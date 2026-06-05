@@ -48,19 +48,7 @@ if "ai_answer" not in st.session_state:
 
 
 # ===================== 加载结构化数据 =====================
-@st.cache_data
-def load_data():
-    data_path = "web_data/archive_data.json"
-    if os.path.exists(data_path):
-        with open(data_path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return None
-
-
-data = load_data()
-
-
-# ===================== 新增：从 Neo4j 查询图数据并转换为前端格式 =====================
+# ===================== 优化版：从 Neo4j 查询图数据并美化视觉样式 =====================
 @st.cache_data
 def load_graph_from_neo4j():
     driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
@@ -73,21 +61,41 @@ def load_graph_from_neo4j():
         result = session.run("MATCH (n:Keyword)-[r:CO_OCCURS]->(m:Keyword) RETURN n, r, m")
         for record in result:
             n_node = record["n"]
-            r_rel = record["r"]
             m_node = record["m"]
+
+            # 🎨 自定义你的节点外观颜色（这里换成了非常有科技感的“珊瑚橙/琥珀金”，你可以换成任何你喜欢的颜色代码）
+            # fontColor="#ffffff" 强制让节点下方的文字显示为纯白色
+            node_color = "#ff7a00" 
 
             # 建立源节点
             if n_node["name"] not in seen_nodes:
-                nodes.append(Node(id=n_node["name"], label=n_node["name"], size=20, color="#3b82f6"))
+                nodes.append(Node(
+                    id=n_node["name"], 
+                    label=n_node["name"], 
+                    size=22,              # 稍微调大了一点节点，更好看
+                    color=node_color, 
+                    fontColor="#ffffff"   # ✨ 核心修改：节点名字改为白色
+                ))
                 seen_nodes.add(n_node["name"])
 
             # 建立目标节点
             if m_node["name"] not in seen_nodes:
-                nodes.append(Node(id=m_node["name"], label=m_node["name"], size=20, color="#3b82f6"))
+                nodes.append(Node(
+                    id=m_node["name"], 
+                    label=m_node["name"], 
+                    size=22, 
+                    color=node_color, 
+                    fontColor="#ffffff"   # ✨ 核心修改：节点名字改为白色
+                ))
                 seen_nodes.add(m_node["name"])
 
             # 建立边（连线）
-            edges.append(Edge(source=n_node["name"], target=m_node["name"], label=f"共现(权重:{int(r_rel['weight'])})"))
+            # ✨ 核心修改：把 label=f"共现..." 彻底删掉，改为空字符串 ""。这样连线上就不会堆积任何密密麻麻的文字了！
+            edges.append(Edge(
+                source=n_node["name"], 
+                target=m_node["name"], 
+                label=""                  # 🧹 彻底清空权重文字，保持界面干净
+            ))
 
     driver.close()
     return nodes, edges
