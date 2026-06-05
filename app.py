@@ -179,12 +179,21 @@ if data:
             nodes_data, edges_data = load_graph_from_neo4j()
 
             # 配置图谱的外观和弹簧物理效果
+            
             graph_config = Config(
                 width=650,
                 height=500,
-                directed=False,  # 共现关系通常是无向的
-                physics=True,  # 开启物理力导向布局，让球体自动弹开扩散
-                hierarchical=False
+                directed=False,   # 共现关系通常是无向的
+                physics=True,     # 开启物理力导向布局
+                hierarchical=False,
+                
+                # ✨ 终极杀招：在这里加入全局字体控制，彻底锁死亮白色
+                # 这会强制覆盖掉框架底层所有的暗色、半透明滤镜
+                font={
+                    'color': '#ffffff',    # 强制全局文字为纯白色
+                    'size': 14,            # 稍微加大字号，更清晰
+                    'face': 'sans-serif'   # 使用标准无衬线字体
+                }
             )
 
             # 渲染图谱到页面上
