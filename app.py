@@ -76,7 +76,7 @@ def load_graph_from_neo4j():
 
             # 🎨 自定义你的节点外观颜色（这里换成了非常有科技感的“珊瑚橙/琥珀金”，你可以换成任何你喜欢的颜色代码）
             # fontColor="#ffffff" 强制让节点下方的文字显示为纯白色
-            node_color = "#ff7a00" 
+            node_color = "#8b5cf6"
 
             # 建立源节点
             if n_node["name"] not in seen_nodes:
