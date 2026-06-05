@@ -48,6 +48,17 @@ if "ai_answer" not in st.session_state:
 
 
 # ===================== 加载结构化数据 =====================
+@st.cache_data
+def load_data():
+    data_path = "web_data/archive_data.json"
+    if os.path.exists(data_path):
+        with open(data_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return None
+
+
+data = load_data()
+
 # ===================== 优化版：从 Neo4j 查询图数据并美化视觉样式 =====================
 @st.cache_data
 def load_graph_from_neo4j():
